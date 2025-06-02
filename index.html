@@ -4597,6 +4597,7 @@
           container.innerHTML = '<p class="text-gray-500 text-center py-8">No type data available</p>';
           return;
         }
+
         const totals = {};
         districtData.forEach(item => {
           if (!totals[item.type]) totals[item.type] = 0;
@@ -4618,7 +4619,10 @@
         }));
 
         barChartType = echarts.init(container, { renderer: 'svg' });
-        
+
+        // Detect if the screen is small (e.g., phone)
+        const isSmallScreen = window.innerWidth <= 640; // Tailwind's 'sm' breakpoint
+
         const option = {
           tooltip: {
             trigger: 'axis',
@@ -4632,21 +4636,46 @@
               return result;
             },
             backgroundColor: '#fff',
-            textStyle: { color: '#333' },
+            textStyle: { color: '#333', fontSize: isSmallScreen ? 10 : 12 },
             extraCssText: 'box-shadow:0 0 10px rgba(0,0,0,0.2);'
           },
-          legend: { data: statuses, bottom: 0 },
-          grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
+          legend: {
+            data: statuses,
+            bottom: 0,
+            textStyle: { fontSize: isSmallScreen ? 10 : 12 }
+          },
+          grid: {
+            left: isSmallScreen ? '5%' : '3%',
+            right: isSmallScreen ? '5%' : '4%',
+            bottom: isSmallScreen ? '20%' : '15%',
+            top: isSmallScreen ? '5%' : '10%',
+            containLabel: true
+          },
           xAxis: {
             type: 'value',
-            axisLabel: { fontSize: 10, interval: 0, formatter: value => value.toLocaleString() },
+            axisLabel: {
+              fontSize: isSmallScreen ? 8 : 10,
+              interval: 0,
+              formatter: value => value.toLocaleString()
+            },
             name: ''
           },
-          yAxis: { type: 'category', data: types },
+          yAxis: {
+            type: 'category',
+            data: types,
+            axisLabel: {
+              fontSize: isSmallScreen ? 8 : 10,
+              rotate: isSmallScreen ? 45 : 0, // Rotate labels on small screens
+              formatter: value => value.length > 10 ? value.substring(0, 10) + '...' : value // Truncate long labels
+            }
+          },
           series: series
         };
 
         barChartType.setOption(option);
+
+        // Ensure chart resizes after modal is shown
+        setTimeout(() => barChartType.resize(), 100);
       };
 
       const renderLineChartTrends = (districtName) => {
@@ -4764,7 +4793,7 @@
           emphasis: { focus: 'series' }
         }];
 
-        lineChartYears = echarts.init(container);
+        lineChartYears = echarts.init(container, { renderer: 'svg' });
         
         const option = {
           tooltip: {
@@ -4988,6 +5017,20 @@
 
       new ResizeObserver(() => map.invalidateSize()).observe(document.getElementById('leaflet-map'));
       updateTimeSlider();
+
+      // Close modal when clicking outside the modal content
+      document.getElementById('map-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.add('hidden');
+        }
+      });
+
+      // Close modal when pressing the Esc key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !document.getElementById('map-modal').classList.contains('hidden')) {
+          document.getElementById('map-modal').classList.add('hidden');
+        }
+      });
     });
   </script>
 </body>
