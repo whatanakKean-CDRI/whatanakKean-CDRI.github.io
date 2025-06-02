@@ -38,39 +38,39 @@
     </h2>
   </header>
 
-<section class="min-h-screen w-full relative px-4 pt-24 pb-20">
-  <div class="bg-white rounded-lg shadow-md overflow-visible">
-    <div id="leaflet-map" class="w-full h-[75vh] min-h-[300px] p-2 my-4 border border-gray-200 rounded-lg"></div>
-    <div class="p-4 border-t border-gray-100">
-      <div class="grid grid-cols-1 gap-4 sm:flex sm:items-center sm:justify-between sm:gap-6">
-        <select id="dataset-selector" class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg font-medium text-sm md:text-base">
-          <option value="open">Number of open establishments in the last 12 months</option>
-          <option value="closed">Number of closed establishments in the last 12 months</option>
-          <option value="dataset2">Number of establishments by year of opening</option>
-        </select>
-        <div class="flex items-center gap-2 w-full">
-          <div class="flex gap-2">
-            <button id="play-button" class="px-3 py-2 text-white rounded-lg font-medium flex items-center text-xs bg-[#336666] hover:bg-[#2b5555]">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            <button id="stop-button" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium flex items-center text-xs hover:bg-gray-300" disabled>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
-            </button>
-          </div>
-          <div class="flex items-center gap-2 flex-1 min-w-0">
-            <span id="time-period-label" class="text-xs font-medium text-gray-700 whitespace-nowrap">Time:</span>
-            <input type="range" id="time-slider" min="0" max="11" value="0" class="flex-1 h-2 bg-gray-200 rounded-lg cursor-pointer" />
-            <span id="time-label" class="text-xs font-medium text-gray-700 whitespace-nowrap">January 2025</span>
+  <section class="min-h-screen w-full relative px-4 pt-24 pb-20">
+    <div class="bg-white rounded-lg shadow-md overflow-visible">
+      <div id="leaflet-map" class="w-full h-[75vh] min-h-[300px] p-2 my-4 border border-gray-200 rounded-lg"></div>
+      <div class="p-4 border-t border-gray-100">
+        <div class="grid grid-cols-1 gap-4 sm:flex sm:items-center sm:justify-between sm:gap-6">
+          <select id="dataset-selector" class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg font-medium text-sm md:text-base">
+            <option value="open">Number of open establishments in the last 12 months</option>
+            <option value="closed">Number of closed establishments in the last 12 months</option>
+            <option value="dataset2">Number of establishments by year of opening</option>
+          </select>
+          <div class="flex items-center gap-2 w-full">
+            <div class="flex gap-2">
+              <button id="play-button" class="px-3 py-2 text-white rounded-lg font-medium flex items-center text-xs bg-[#336666] hover:bg-[#2b5555]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                </svg>
+              </button>
+              <button id="stop-button" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium flex items-center text-xs hover:bg-gray-300" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            <div class="flex items-center gap-2 flex-1 min-w-0">
+              <span id="time-period-label" class="text-xs font-medium text-gray-700 whitespace-nowrap">Time:</span>
+              <input type="range" id="time-slider" min="0" max="11" value="0" class="flex-1 h-2 bg-gray-200 rounded-lg cursor-pointer" />
+              <span id="time-label" class="text-xs font-medium text-gray-700 whitespace-nowrap">January 2025</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <div id="map-modal" class="hidden fixed z-[1000] inset-0 bg-black bg-opacity-50">
     <div class="bg-white m-[5%] mx-auto p-5 rounded-lg w-4/5 max-w-[90vw] shadow-lg relative max-h-[90vh] overflow-y-auto">
@@ -79,7 +79,6 @@
         <h3 id="modal-district" class="text-lg font-bold mb-2"></h3>
         <p id="modal-value" class="text-gray-600"></p>
         <p id="modal-status" class="text-gray-600"></p>
-        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
           <div class="bg-gray-50 p-4 rounded-lg">
             <h4 class="text-md font-semibold mb-2">Operating and closed establishments</h4>
@@ -90,7 +89,6 @@
             <div id="line-chart-trends" class="w-full h-64"></div>
           </div>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
           <div class="bg-gray-50 p-4 rounded-lg">
             <h4 class="text-md font-semibold mb-2">Proportion of opened and closed establishments by type</h4>
@@ -103,9 +101,10 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 
   <script>
+    // Placeholder datasets (replace with actual data)
     const datasets = {
       dataset1: [
     {
@@ -4387,6 +4386,7 @@
 ]
     };
 
+
     const districtsGeoJSON = {
       "type": "FeatureCollection",
       "features": [
@@ -4399,7 +4399,7 @@
         {"type":"Feature","properties":{"name":"Boeng Tumpun 2"},"geometry":{"type":"Polygon","coordinates":[[[104.897705,11.522888],[104.9055436,11.5207378],[104.9108865,11.5194973],[104.912903,11.519104],[104.916321,11.518677],[104.920288,11.520691],[104.921509,11.525696],[104.918091,11.5271],[104.915527,11.528931],[104.9113984,11.5273291],[104.897762,11.528044],[104.897522,11.526306],[104.897705,11.522888]]]}}
       ]
     };
-    
+
     const timeData = {
       open: [...new Set(datasets.dataset1.map(item => {
         const date = new Date(item.month);
@@ -4412,22 +4412,14 @@
       dataset2: [...new Set(datasets.dataset2.map(item => item.year))].sort((a, b) => a - b)
     };
 
-
-    // Helper function to generate ranges based on data
     const generateRanges = (data, valueKey, numRanges) => {
-      const values = data.map(item => item[valueKey]);
+      const values = data.map(item => item[valueKey]).filter(v => v !== undefined && v !== null);
+      if (values.length === 0) return [0, 1, 2, 3, 4];
       const min = Math.min(...values);
       const max = Math.max(...values);
-      
-      // Handle case where data is empty
-      if (values.length === 0) return [0, 1, 2, 3, 4];
-      
-      // Handle case where min equals max
       if (min === max) {
         return [0, Math.round(max * 0.25), Math.round(max * 0.5), Math.round(max * 0.75), max];
       }
-
-      // Start ranges at 0, divide into numRanges intervals
       const step = Math.ceil(max / numRanges);
       const ranges = [];
       for (let i = 0; i <= numRanges; i++) {
@@ -4435,7 +4427,6 @@
       }
       return ranges;
     };
-
 
     const colorScales = {
       open: {
@@ -4470,37 +4461,39 @@
 
       const getColor = (value, dataset) => {
         const {ranges, colors} = colorScales[dataset];
-        for (let i = 0; i < ranges.length; i++) {
-          if (value < ranges[i+1] || i === ranges.length-1) return colors[i];
+        for (let i = 0; i < ranges.length - 1; i++) {
+          if (value <= ranges[i + 1]) return colors[i];
         }
-        return colors[0];
+        return colors[ranges.length - 1];
       };
 
       const getDistrictData = (districtName) => {
-        const data = datasets[currentDataset];
         if (currentDataset === 'open' || currentDataset === 'closed') {
-          const data = datasets.dataset1;
+          const data = datasets.dataset1 || [];
           const status = currentDataset === 'open' ? 'New' : 'Closed';
-          const selectedMonth = timeData[currentDataset][currentTimeIndex];
-          const monthYear = new Date(selectedMonth);
+          const selectedMonth = timeData[currentDataset][currentTimeIndex] || '';
+          const monthYear = selectedMonth ? new Date(selectedMonth) : new Date();
           const formattedMonth = `${monthYear.getFullYear()}-${(monthYear.getMonth() + 1).toString().padStart(2, '0')}`;
           const items = data.filter(d => d.a3 === districtName && d.month.startsWith(formattedMonth) && d.status === status);
+          const value = items.reduce((sum, d) => sum + (d.count || 0), 0);
           return { 
-            value: items.reduce((sum, d) => sum + d.count, 0),
+            value,
             status: status === 'New' ? 'Open Establishments' : 'Closed Establishments'
           };
         } else {
+          const data = datasets.dataset2 || [];
           const year = timeData.dataset2[currentTimeIndex];
           const items = data.filter(d => d.a3 === districtName && d.year <= year);
+          const value = items.reduce((sum, d) => sum + (d.est_count || 0), 0);
           return { 
-            value: items.reduce((sum, d) => sum + d.est_count, 0),
+            value,
             status: items.length ? `Established between ${items[0].year} and ${items[items.length - 1].year}` : 'No data'
           };
         }
       };
 
       const renderPieChartStatus = (districtName) => {
-        const chartData = datasets.dataset3.filter(item => item.a3 === districtName);
+        const chartData = (datasets.dataset3 || []).filter(item => item.a3 === districtName);
         const container = document.getElementById('pie-chart-status');
         
         if (pieChartStatus) {
@@ -4519,13 +4512,10 @@
         const option = {
           tooltip: {
             trigger: 'item',
-            formatter: params => {
-              return `
-                <span style="display:inline-block;width:10px;height:10px;
-                border-radius:50%;background:${params.color};margin-right:5px;"></span>
-                <strong>${params.name}</strong>: ${params.value.toLocaleString()} (${params.percent}%)
-              `;
-            },
+            formatter: params => `
+              <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${params.color};margin-right:5px;"></span>
+              <strong>${params.name}</strong>: ${params.value.toLocaleString()} (${params.percent}%)
+            `,
             backgroundColor: '#fff',
             textStyle: { color: '#333' },
             extraCssText: 'box-shadow:0 0 10px rgba(0,0,0,0.2);'
@@ -4555,9 +4545,7 @@
                 fontWeight: 'bold'
               }
             },
-            labelLine: {
-              show: false
-            },
+            labelLine: { show: false },
             data: chartData.map(item => ({
               value: item.count,
               name: item.status,
@@ -4570,7 +4558,7 @@
       };
 
       const renderBarChartType = (districtName) => {
-        const districtData = datasets.dataset4.filter(item => item.a3 === districtName);
+        const districtData = (datasets.dataset4 || []).filter(item => item.a3 === districtName);
         const container = document.getElementById('pie-chart-type');
         
         if (barChartType) {
@@ -4583,15 +4571,12 @@
           container.innerHTML = '<p class="text-gray-500 text-center py-8">No type data available</p>';
           return;
         }
-        // Calculate totals per type
         const totals = {};
         districtData.forEach(item => {
           if (!totals[item.type]) totals[item.type] = 0;
           totals[item.type] += item.count;
         });
-        // Sort types descending by total count
         const types = Object.keys(totals).sort((a, b) => totals[b] - totals[a]);
-
         const statuses = ['Opened', 'Closed'];
         const colors = { 'Opened': '#336666', 'Closed': '#E31A1C' };
 
@@ -4603,9 +4588,7 @@
             const item = districtData.find(d => d.type === type && d.status === status);
             return item ? item.count : 0;
           }),
-          itemStyle: {
-            color: colors[status] || '#336666'
-          }
+          itemStyle: { color: colors[status] || '#336666' }
         }));
 
         barChartType = echarts.init(container, { renderer: 'svg' });
@@ -4617,9 +4600,7 @@
               let result = `<strong>${params[0].name}</strong><br/>`;
               params.forEach(p => {
                 if (p.value > 0) {
-                  result += `<span style="display:inline-block;width:10px;height:10px;
-                    border-radius:50%;background:${p.color};margin-right:5px;"></span>
-                    ${p.seriesName}: ${p.value.toLocaleString()}<br/>`;
+                  result += `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:5px;"></span>${p.seriesName}: ${p.value.toLocaleString()}<br/>`;
                 }
               });
               return result;
@@ -4628,31 +4609,14 @@
             textStyle: { color: '#333' },
             extraCssText: 'box-shadow:0 0 10px rgba(0,0,0,0.2);'
           },
-          legend: {
-            data: statuses,
-            bottom: 0
-          },
-          grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '15%',
-            top: '10%',
-            containLabel: true
-          },
+          legend: { data: statuses, bottom: 0 },
+          grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
           xAxis: {
             type: 'value',
-            axisLabel: {
-              fontSize: 10,
-              interval: 0, // 0 means show all labels; set to 1 or more to skip some labels
-              formatter: value => value.toLocaleString()
-            },
+            axisLabel: { fontSize: 10, interval: 0, formatter: value => value.toLocaleString() },
             name: ''
           },
-
-          yAxis: {
-            type: 'category',
-            data: types
-          },
+          yAxis: { type: 'category', data: types },
           series: series
         };
 
@@ -4660,7 +4624,7 @@
       };
 
       const renderLineChartTrends = (districtName) => {
-        const districtData = datasets.dataset1.filter(item => item.a3 === districtName);
+        const districtData = (datasets.dataset1 || []).filter(item => item.a3 === districtName);
         const container = document.getElementById('line-chart-trends');
         
         if (lineChartTrends) {
@@ -4676,34 +4640,27 @@
 
         const statusGroups = {};
         districtData.forEach(item => {
-          if (!statusGroups[item.status]) {
-            statusGroups[item.status] = [];
-          }
+          if (!statusGroups[item.status]) statusGroups[item.status] = [];
           statusGroups[item.status].push(item);
         });
 
-        const allMonths = [...new Set(districtData.map(item => {
+        const allMonths = [...new Set(datasets.dataset1.map(item => {
           const date = new Date(item.month);
-          return date.toLocaleString('default', { month: 'short' }) + ' ' + date.getFullYear();
-        }))].sort((a, b) => {
-          return new Date(a.split(' ')[1] + '-' + a.split(' ')[0]) - new Date(b.split(' ')[1] + '-' + b.split(' ')[0]);
-        });
+          return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+        }))].sort((a, b) => new Date(a) - new Date(b));
 
         const series = [];
-        const colors = {
-          'New': '#336666',
-          'Closed': '#E31A1C'
-        };
+        const colors = { 'New': '#336666', 'Closed': '#E31A1C' };
 
-        Object.keys(statusGroups).forEach(status => {
-          const statusData = statusGroups[status];
+        ['New', 'Closed'].forEach(status => {
+          const statusData = statusGroups[status] || [];
           const dataPoints = allMonths.map(month => {
             const matchingData = statusData.find(item => {
               const date = new Date(item.month);
-              const itemMonth = date.toLocaleString('default', { month: 'short' }) + ' ' + date.getFullYear();
-              return itemMonth === month;
+              const itemMonthYear = date.toLocaleString('default', { month: 'short', year: 'numeric' });
+              return itemMonthYear === month;
             });
-            return matchingData ? matchingData.count : null;
+            return matchingData ? matchingData.count : 0;
           });
 
           series.push({
@@ -4711,18 +4668,11 @@
             type: 'line',
             data: dataPoints,
             smooth: true,
-            lineStyle: {
-              width: 3,
-              color: colors[status] || '#336666'
-            },
-            itemStyle: {
-              color: colors[status] || '#336666'
-            },
+            lineStyle: { width: 3, color: colors[status] || '#336666' },
+            itemStyle: { color: colors[status] || '#336666' },
             symbol: 'circle',
             symbolSize: 8,
-            emphasis: {
-              focus: 'series'
-            }
+            emphasis: { focus: 'series' }
           });
         });
 
@@ -4734,10 +4684,8 @@
             formatter: params => {
               let result = `<strong>${params[0].axisValue}</strong><br/>`;
               params.forEach(p => {
-                if (p.value !== null) {
-                  result += `<span style="display:inline-block;width:10px;height:10px;
-                    border-radius:50%;background:${p.color};margin-right:5px;"></span>
-                    ${p.seriesName}: ${p.value.toLocaleString()}<br/>`;
+                if (p.value > 0) {
+                  result += `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:5px;"></span>${p.seriesName}: ${p.value.toLocaleString()}<br/>`;
                 }
               });
               return result;
@@ -4746,38 +4694,19 @@
             textStyle: { color: '#333' },
             extraCssText: 'box-shadow:0 0 10px rgba(0,0,0,0.2);'
           },
-          legend: {
-            data: Object.keys(statusGroups),
-            bottom: 0
-          },
-          xAxis: {
-            type: 'category',
-            data: allMonths,
-            axisLabel: {
-              rotate: 45
-            },
-            boundaryGap: false
-          },
-          yAxis: {
-            type: 'value',
-            name: ''
-          },
+          legend: { data: ['Open', 'Closed'], bottom: 0 },
+          xAxis: { type: 'category', data: allMonths, axisLabel: { rotate: 45 }, boundaryGap: false },
+          yAxis: { type: 'value', name: '' },
           series: series,
-          grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '15%',
-            top: '10%',
-            containLabel: true
-          },
-          color: Object.keys(colors).map(status => colors[status])
+          grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
+          color: ['#336666', '#E31A1C']
         };
 
         lineChartTrends.setOption(option);
       };
 
       const renderLineChartYears = (districtName) => {
-        const districtData = datasets.dataset2.filter(item => item.a3 === districtName);
+        const districtData = (datasets.dataset2 || []).filter(item => item.a3 === districtName);
         const container = document.getElementById('line-chart-years');
         
         if (lineChartYears) {
@@ -4801,18 +4730,11 @@
             return item ? item.est_count : 0;
           }),
           smooth: true,
-          lineStyle: {
-            width: 3,
-            color: '#336666'
-          },
-          itemStyle: {
-            color: '#336666'
-          },
+          lineStyle: { width: 3, color: '#336666' },
+          itemStyle: { color: '#336666' },
           symbol: 'circle',
           symbolSize: 8,
-          emphasis: {
-            focus: 'series'
-          }
+          emphasis: { focus: 'series' }
         }];
 
         lineChartYears = echarts.init(container);
@@ -4824,8 +4746,7 @@
               const p = params[0];
               return `
                 <strong>${p.axisValue}</strong><br/>
-                <span style="display:inline-block;width:10px;height:10px;
-                  border-radius:50%;background:${p.color};margin-right:5px;"></span>
+                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:5px;"></span>
                 ${p.value.toLocaleString()} Establishments
               `;
             },
@@ -4833,30 +4754,11 @@
             textStyle: { color: '#333' },
             extraCssText: 'box-shadow:0 0 10px rgba(0,0,0,0.2);'
           },
-          legend: {
-            data: ['Establishments'],
-            bottom: 0
-          },
-          xAxis: {
-            type: 'category',
-            data: allYears,
-            axisLabel: {
-              rotate: 45
-            },
-            boundaryGap: false
-          },
-          yAxis: {
-            type: 'value',
-            name: ''
-          },
+          legend: { data: ['Establishments'], bottom: 0 },
+          xAxis: { type: 'category', data: allYears, axisLabel: { rotate: 45 }, boundaryGap: false },
+          yAxis: { type: 'value', name: '' },
           series: series,
-          grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '15%',
-            top: '10%',
-            containLabel: true
-          },
+          grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
           color: ['#336666']
         };
 
@@ -4884,8 +4786,8 @@
               icon: L.divIcon({
                 className: 'custom-label',
                 html: value.toLocaleString(),
-                iconSize: [20, 20],
-                iconAnchor: [10, 10]
+                iconSize: [20, 40],
+                iconAnchor: [10, 20]
               }),
               interactive: false
             });
@@ -4911,20 +4813,18 @@
             }).bindTooltip(
               `
               <strong>${feature.properties.name}</strong><br/>
-              <span style="display:inline-block;width:10px;height:10px;
-                border-radius:50%;background:#3498db;margin-right:5px;"></span>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3498db;margin-right:5px;"></span>
               ${
                 currentDataset === 'open' ? `Openings: ${value.toLocaleString()}` :
                 currentDataset === 'closed' ? `Closures: ${value.toLocaleString()}` :
                 `Establishments: ${value.toLocaleString()}`
               }
-              `, 
+              `,
               { direction: 'top', sticky: true, className: 'custom-tooltip' }
             );
           }
         }).addTo(map);
         
-        // Update both legends
         updateLegend();
         updateTitleLegend();
       };
@@ -4935,7 +4835,7 @@
         
         legend.onAdd = () => {
           const div = L.DomUtil.create('div', 'title-legend bg-white p-3 rounded-lg shadow-md border border-gray-200');
-          const timeLabel = timeData[currentDataset][currentTimeIndex];
+          const timeLabel = timeData[currentDataset][currentTimeIndex] || 'No time data';
           
           div.innerHTML = `
             <div class="flex flex-col">
@@ -4966,7 +4866,7 @@
         
         legend.onAdd = () => {
           const div = L.DomUtil.create('div', 'info legend bg-white p-2 rounded shadow');
-          const {ranges, colors} = colorScales[currentDataset];
+          const {ranges, colors} = colorScales[currentDataset] || {ranges: [], colors: []};
           
           div.innerHTML = `<h4 class="text-sm font-bold mb-2">${
             currentDataset === 'open' ? 'Openings Count' :
@@ -4974,7 +4874,9 @@
             'Establishment Count'
           }</h4>`;
           ranges.forEach((range, i) => {
-            div.innerHTML += `<div class="flex items-center mb-1"><i style="background:${colors[i]}; width:12px;height:12px;display:inline-block;margin-right:5px;"></i> ${range}${ranges[i+1] ? `–${ranges[i+1]}</div>` : '+</div>'}`;
+            if (i < colors.length) {
+              div.innerHTML += `<div class="flex items-center mb-1"><i style="background:${colors[i]};width:12px;height:12px;display:inline-block;margin-right:5px;"></i>${range}${ranges[i+1] ? `–${ranges[i+1]}` : '+'}</div>`;
+            }
           });
           return div;
         };
@@ -4982,16 +4884,30 @@
         legend.addTo(map);
       };
 
-
       const updateTimeSlider = () => {
         const slider = document.getElementById('time-slider');
         const timeLabel = document.getElementById('time-label');
         const timePeriodLabel = document.getElementById('time-period-label');
         
+        const timeDataLength = (timeData[currentDataset] || []).length;
         slider.min = 0;
-        slider.max = timeData[currentDataset].length - 1;
-        slider.value = currentDataset === 'dataset2' ? timeData.dataset2.length - 1 : 0;
+        slider.max = timeDataLength > 0 ? timeDataLength - 1 : 0;
+        
+        // Reset slider value and index based on dataset
+        if (currentDataset === 'dataset2') {
+          slider.value = timeDataLength - 1; // Last year for dataset2
+        } else {
+          slider.value = 0; // First month for open/closed
+        }
+        
+        currentTimeIndex = parseInt(slider.value) || 0;
+        
+        // Disable slider if only one time point
+        slider.disabled = timeDataLength <= 1;
+        
+        timeLabel.textContent = timeData[currentDataset][currentTimeIndex] || 'No time data';
         timePeriodLabel.textContent = currentDataset === 'dataset2' ? 'Year:' : 'Month:';
+        
         updateMap();
       };
 
@@ -5012,7 +4928,7 @@
         animationInterval = setInterval(() => {
           const slider = document.getElementById('time-slider');
           let nextIndex = parseInt(slider.value) + 1;
-          if (nextIndex > timeData[currentDataset].length - 1) nextIndex = 0;
+          if (nextIndex > (timeData[currentDataset] || []).length - 1) nextIndex = 0;
           slider.value = nextIndex;
           updateTimePeriod();
         }, 1000);
@@ -5028,8 +4944,8 @@
       document.getElementById('time-slider').addEventListener('input', updateTimePeriod);
 
       function updateTimePeriod() {
-        currentTimeIndex = parseInt(document.getElementById('time-slider').value);
-        document.getElementById('time-label').textContent = timeData[currentDataset][currentTimeIndex];
+        currentTimeIndex = parseInt(document.getElementById('time-slider').value) || 0;
+        document.getElementById('time-label').textContent = timeData[currentDataset][currentTimeIndex] || 'No time data';
         updateMap();
       }
 
@@ -5050,8 +4966,6 @@
       new ResizeObserver(() => map.invalidateSize()).observe(document.getElementById('leaflet-map'));
       updateTimeSlider();
     });
-  
-  
   </script>
 </body>
 </html>
