@@ -274,7 +274,7 @@
             </div>
         </div>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -5332,7 +5332,7 @@
         legendContainer.classList.remove('hidden');
         };
 
-      const updateTimeSlider = () => {
+    const updateTimeSlider = () => {
         const slider = document.getElementById('time-slider');
         const timeLabel = document.getElementById('time-label');
         const timePeriodLabel = document.getElementById('time-period-label');
@@ -5341,7 +5341,8 @@
         slider.min = 0;
         slider.max = timeDataLength > 0 ? timeDataLength - 1 : 0;
         
-        slider.value = currentDataset === 'dataset2' && timeDataLength > 0 ? timeDataLength - 1 : 0;
+        // Modified this line to remove the dataset2 condition
+        slider.value = timeDataLength > 0 ? timeDataLength - 1 : 0;
         currentTimeIndex = parseInt(slider.value) || 0;
         
         slider.disabled = timeDataLength <= 1;
@@ -5350,7 +5351,8 @@
         timePeriodLabel.textContent = currentDataset === 'dataset2' ? 'Year:' : 'Month:';
         
         updateMap();
-      };
+    };
+
 
       document.getElementById('dataset-selector').addEventListener('change', function() {
         currentDataset = this.value;
