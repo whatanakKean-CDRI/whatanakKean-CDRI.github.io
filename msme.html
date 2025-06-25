@@ -58,9 +58,9 @@
     }
     #map-controls {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
       z-index: 1000;
       background: white;
       padding: 16px;
@@ -135,6 +135,7 @@
         display: none !important;
       }
     }
+    
     /* Safari-specific fixes */
     @supports (-webkit-touch-callout: none) {
       #app-container {
@@ -4832,9 +4833,7 @@
       });
       
       // Add tile layer
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(map);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png').addTo(map);
       
       // Add zoom control to bottom right
       L.control.zoom({
@@ -5310,6 +5309,7 @@
         legend.addTo(map);
       };
 
+
       const updateTimeSlider = () => {
         const slider = document.getElementById('time-slider');
         const timeLabel = document.getElementById('time-label');
@@ -5618,7 +5618,7 @@
 
                 // Calculate responsive settings
                 const isSmallScreen = window.innerWidth <= 640;
-                const titleFontSize = isSmallScreen ? 14 : 16;
+                const titleFontSize = isSmallScreen ? 10 : 16;
                 const labelFontSize = isSmallScreen ? 8 : 10;
                 const legendFontSize = isSmallScreen ? 10 : 12;
                 const gridBottom = isSmallScreen ? '15%' : '10%';
@@ -5633,7 +5633,7 @@
                             fontSize: titleFontSize,
                             fontWeight: 'bold',
                             color: '#333'
-                        }
+                        },
                     },
                     tooltip: {
                         trigger: 'axis',
