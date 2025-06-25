@@ -33,17 +33,14 @@
     }
     #app-container {
       height: 100vh;
-      height: -webkit-fill-available;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
     #main-content {
       flex: 1;
       overflow: hidden;
       position: relative;
       display: flex;
-      min-height: 0;
     }
     #info-panel {
       width: 40%;
@@ -56,18 +53,17 @@
       -webkit-overflow-scrolling: touch;
     }
     #map-container {
-      flex: 1;
+      width: 60%;
       position: relative;
-      min-height: 0;
     }
     #map-controls {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
       z-index: 1000;
       background: white;
-      padding: 12px;
+      padding: 16px;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
@@ -90,27 +86,13 @@
       display: none;
     }
     
-    /* Safari-specific fixes */
-    @supports (-webkit-touch-callout: none) {
-      #app-container {
-        height: -webkit-fill-available;
-      }
-      #info-panel {
-        overscroll-behavior: contain;
-      }
-      input[type="range"] {
-        -webkit-appearance: none;
-      }
-    }
-    
     /* Mobile styles */
     @media (max-width: 768px) {
       #info-panel {
         position: absolute;
-        width: 85%;
+        width: 80%;
         height: 100%;
         transform: translateX(-100%);
-        z-index: 1100;
       }
       
       #info-panel.panel-visible {
@@ -141,13 +123,6 @@
         opacity: 1;
         pointer-events: auto;
       }
-      
-      #map-controls {
-        bottom: 5px;
-        left: 5px;
-        right: 5px;
-        padding: 10px;
-      }
     }
     
     /* Desktop styles */
@@ -160,13 +135,18 @@
         display: none !important;
       }
     }
-    
-    /* Chart container fixes */
-    #compare-bar-chart-status {
-      width: 100% !important;
-      height: 300px !important;
+    /* Safari-specific fixes */
+    @supports (-webkit-touch-callout: none) {
+      #app-container {
+        height: -webkit-fill-available;
+      }
+      #info-panel {
+        overscroll-behavior: contain;
+      }
+      input[type="range"] {
+        -webkit-appearance: none;
+      }
     }
-    
     /* Prevent iOS zooming on form elements */
     select, input {
       font-size: 16px;
@@ -186,52 +166,52 @@
     </header>
 
     <div id="main-content">
-      <!-- Left Panel -->
-      <div id="info-panel" class="p-4 overflow-y-auto flex flex-col gap-4">
-          <h3 class="text-lg font-bold text-[#336666]">MSME Overview</h3>
-          
-          <!-- Key Statistics Section -->
-          <div class="bg-white rounded-lg shadow-sm p-4">
-              <h4 class="font-semibold mb-3 text-gray-700">Key Statistics</h4>
-              <div class="grid grid-cols-2 gap-3">
-                  <div class="bg-gray-50 p-3 rounded-lg">
-                      <div class="text-xs text-gray-500 mb-1">Total Observations</div>
-                      <div class="text-xl font-bold text-gray-800" id="total-establishments">15,962</div>
-                  </div>
-                  <div class="bg-gray-50 p-3 rounded-lg">
-                      <div class="text-xs text-gray-500 mb-1">Currently Operating Business</div>
-                      <div class="text-xl font-bold text-gray-800" id="total-establishments">14,820</div>
-                  </div>
-                  <div class="bg-gray-50 p-3 rounded-lg">
-                      <div class="text-xs text-gray-500 mb-1">Newly Opening Business (12 months)</div>
-                      <div class="text-xl font-bold text-gray-800" id="new-establishments">1,790</div>
-                  </div>
-                  <div class="bg-gray-50 p-3 rounded-lg">
-                      <div class="text-xs text-gray-500 mb-1">Closed Business(12 months)</div>
-                      <div class="text-xl font-bold text-gray-800" id="closed-establishments">1,142</div>
-                  </div>
-              </div>
-          </div>
+        <!-- Left Panel -->
+        <div id="info-panel" class="p-4 overflow-y-auto flex flex-col gap-4 min-h-0 drawer-panel">
+            <h3 class="text-lg font-bold text-[#336666]">MSME Overview</h3>
+            
+            <!-- Key Statistics Section -->
+            <div class="bg-white rounded-lg shadow-sm p-4">
+                <h4 class="font-semibold mb-3 text-gray-700">Key Statistics</h4>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="text-xs text-gray-500 mb-1">Total Observations</div>
+                        <div class="text-xl font-bold text-gray-800" id="total-establishments">15,962</div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="text-xs text-gray-500 mb-1">Currently Operating Business</div>
+                        <div class="text-xl font-bold text-gray-800" id="total-establishments">14,820</div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="text-xs text-gray-500 mb-1">Newly Opening Business (12 months)</div>
+                        <div class="text-xl font-bold text-gray-800" id="new-establishments">1,790</div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="text-xs text-gray-500 mb-1">Closed Business (12 months)</div>
+                        <div class="text-xl font-bold text-gray-800" id="closed-establishments">1,142</div>
+                    </div>
+                </div>
+            </div>
 
-          <!-- Dataset Visualization -->
-          <div class="bg-white rounded-lg shadow-sm flex-1 flex flex-col">
-              <div class="p-4 border-b">
-                  <select id="dataset-select" class="w-full px-3 py-2 border rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
-                      <option value="compare-dataset3">Operating and Closed Establishments by Sangkat</option>
-                      <option value="compare-dataset5">Open Establishments by Sangkat</option>
-                      <option value="compare-dataset6">Registration Status by Sangkat</option>
-                  </select>
-              </div>
-              <div class="p-4 flex-1">
-                  <div id="compare-bar-chart-status" class="w-full h-full min-h-[300px]"></div>
-              </div>
-          </div>
-          
-          <!-- Data Source Footer -->
-          <div class="text-xs text-gray-500 italic pt-2 border-t border-gray-100">
-              <p>Data source: Cambodia Development Resource Institute</p>
-          </div>
-      </div>
+            <!-- Dataset Visualization -->
+            <div class="bg-white rounded-lg shadow-sm flex flex-col">
+                <div class="p-4 border-b">
+                    <select id="dataset-select" class="w-full px-3 py-2 border rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="compare-dataset3">Operating and Closed Establishments by Sangkat</option>
+                        <option value="compare-dataset5">Open Establishments by Sangkat</option>
+                        <option value="compare-dataset6">Registration Status by Sangkat</option>
+                    </select>
+                </div>
+                <div class="p-4 flex-1 relative">
+                    <div id="compare-bar-chart-status" class="w-full h-full min-h-[300px]"></div>
+                </div>
+            </div>
+            
+            <!-- Data Source Footer -->
+            <div class="text-xs text-gray-500 italic pt-2 border-t border-gray-100 mt-auto">
+                <p>Data source: Cambodia Development Resource Institute</p>
+            </div>
+        </div>
         
       <!-- Overlay for mobile -->
       <div id="panel-overlay" class="panel-overlay"></div>
