@@ -238,35 +238,43 @@
           </svg>
         </button>
         <div id="leaflet-map" class="w-full h-full"></div>
+
         <!-- Map Controls -->
-        <div id="map-controls">
-          <div class="grid grid-cols-1 gap-4 sm:flex sm:items-center sm:justify-between sm:gap-6">
-            <select id="dataset-selector" class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg font-medium text-sm md:text-base">
-              <option value="open">Number of open establishments in the last 12 months</option>
-              <option value="closed">Number of closed establishments in the last 12 months</option>
-              <option value="dataset2">Number of establishments by year of opening</option>
+        <div id="map-controls" class="relative">
+        <!-- Legend Container - Consistent 10px spacing with fixed right margin -->
+        <div id="map-legend" class="absolute bottom-full right-0 mb-2.5 z-[1000] bg-white p-2.5 rounded-lg shadow-md w-40 sm:absolute sm:bottom-20 sm:mb-0">
+            <h4 class="font-bold mb-2 text-sm text-gray-800" id="legend-title">Legend</h4>
+            <div id="legend-content" class="space-y-1 text-xs"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-2.5 sm:flex sm:items-center sm:justify-between sm:gap-2.5">
+            <select id="dataset-selector" class="w-full px-2.5 py-2 bg-white border border-gray-300 rounded-lg font-medium text-sm md:text-base">
+            <option value="open">Number of open establishments in the last 12 months</option>
+            <option value="closed">Number of closed establishments in the last 12 months</option>
+            <option value="dataset2">Number of establishments by year of opening</option>
             </select>
-            <div class="flex items-center gap-2 w-full">
-              <div class="flex gap-2">
-                <button id="play-button" class="px-3 py-2 text-white rounded-lg font-medium flex items-center text-xs bg-[#336666] hover:bg-[#2b5555]">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <div class="flex items-center gap-2.5 w-full">
+            <div class="flex gap-2.5">
+                <button id="play-button" class="px-2.5 py-2 text-white rounded-lg font-medium flex items-center text-xs bg-[#336666] hover:bg-[#2b5555]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                  </svg>
+                </svg>
                 </button>
-                <button id="stop-button" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium flex items-center text-xs hover:bg-gray-300" disabled>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <button id="stop-button" class="px-2.5 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium flex items-center text-xs hover:bg-gray-300" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                  </svg>
+                </svg>
                 </button>
-              </div>
-              <div class="flex items-center gap-2 flex-1 min-w-0">
+            </div>
+            <div class="flex items-center gap-2.5 flex-1 min-w-0">
                 <span id="time-period-label" class="text-xs font-medium text-gray-700 whitespace-nowrap">Time:</span>
                 <input type="range" id="time-slider" min="0" max="11" value="0" class="flex-1 h-2 bg-gray-200 rounded-lg cursor-pointer" />
                 <span id="time-label" class="text-xs font-medium text-gray-700 whitespace-nowrap">January 2025</span>
-              </div>
             </div>
-          </div>
+            </div>
         </div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -4847,11 +4855,6 @@
       
       // Add tile layer
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png').addTo(map);
-      
-      // Add zoom control to bottom right
-      L.control.zoom({
-        position: 'bottomright'
-      }).addTo(map);
 
       let currentDataset = 'open';
       let currentTimeIndex = 0;
@@ -5298,30 +5301,36 @@
         legend.addTo(map);
       };
 
-      const updateLegend = () => {
-        document.querySelector('.info.legend')?.remove();
-        const legend = L.control({position: 'bottomright'});
+        const updateLegend = () => {
+        const legendContainer = document.getElementById('map-legend');
+        const legendContent = document.getElementById('legend-content');
+        const legendTitle = document.getElementById('legend-title');
         
-        legend.onAdd = () => {
-          const div = L.DomUtil.create('div', 'info legend bg-white p-2 rounded shadow');
-          const {ranges, colors} = colorScales[currentDataset] || {ranges: [], colors: []};
-          
-          div.innerHTML = `<h4 class="font-bold mb-2">${
+        if (!legendContainer || !legendContent || !legendTitle) return;
+        
+        const {ranges, colors} = colorScales[currentDataset] || {ranges: [], colors: []};
+        
+        // Update title based on current dataset
+        legendTitle.textContent = 
             currentDataset === 'open' ? 'Openings Count' :
             currentDataset === 'closed' ? 'Closures Count' :
-            'Establishment Count'
-          }</h4>`;
-          ranges.forEach((range, i) => {
-            if (i < colors.length) {
-              div.innerHTML += `<div class="flex items-center mb-1"><i style="background:${colors[i]};width:12px;height:12px;display:inline-block;margin-right:5px;"></i>${range}${ranges[i+1] ? `–${ranges[i+1]}` : '+'}</div>`;
-            }
-          });
-          return div;
-        };
+            'Establishment Count';
         
-        legend.addTo(map);
-      };
-
+        // Build legend HTML
+        let legendHTML = '';
+        ranges.forEach((range, i) => {
+            if (i < colors.length) {
+            legendHTML += `
+                <div class="flex items-center mb-1 text-xs">
+                <i style="background:${colors[i]}; width:12px; height:12px; display:inline-block; margin-right:5px;"></i>
+                ${range}${ranges[i+1] ? `–${ranges[i+1]}` : '+'}
+                </div>`;
+            }
+        });
+        
+        legendContent.innerHTML = legendHTML;
+        legendContainer.classList.remove('hidden');
+        };
 
       const updateTimeSlider = () => {
         const slider = document.getElementById('time-slider');
