@@ -5583,7 +5583,7 @@
                         label: {
                             show: true,
                             position: 'inside',
-                            formatter: ({ value }) => (value > 5 ? `${value}%` : ''),
+                            formatter: ({ value }) => (value > 10 ? `${value}%` : ''),
                             fontSize: 10
                         },
                         animation: true,
@@ -5595,6 +5595,7 @@
 
                     chartTitle = 'Operating and Closed Establishments by Sangkat';
                 } 
+                
                 else if (selectedDataset === 'compare-dataset5') {
                     // Handle dataset5 (Open Establishments by Sangkat)
                     if (!datasets?.dataset5 || !Array.isArray(datasets.dataset5) || datasets.dataset5.length === 0) {
