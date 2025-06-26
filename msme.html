@@ -4998,6 +4998,7 @@
       const renderPieChartStatus = (districtName) => {
         const chartData = (datasets.dataset3 || []).filter(item => item.a3 === districtName);
         const container = document.getElementById('pie-chart-status');
+        const isSmallScreen = window.innerWidth <= 640;
         
         if (pieChartStatus) {
           pieChartStatus.dispose();
@@ -5031,6 +5032,7 @@
             name: 'Establishment Status',
             type: 'pie',
             radius: ['50%', '70%'],
+            center: ['50%', isSmallScreen ? '40%' : '50%'],
             avoidLabelOverlap: false,
             itemStyle: {
               muscle: 10,
