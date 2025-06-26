@@ -214,6 +214,7 @@
                         <option value="compare-dataset3">Operating and Closed Establishments by Sangkat</option>
                         <option value="compare-dataset5">Open Establishments by Sangkat</option>
                         <option value="compare-dataset6">Registration Status by Sangkat</option>
+                        <option value="compare-dataset7">Self-reported Factors Behind Business Closures</option>
                     </select>
                 </div>
                 <div class="p-4 flex-1 relative">
@@ -4751,6 +4752,99 @@
         "percent": 18.76961707470182
     }
 ],
+      dataset7: [
+    {
+        "reason_code": "q7_a2",
+        "count": 641,
+        "percentage": 34.55525606469003,
+        "reason": "Low customer demand"
+    },
+    {
+        "reason_code": "q7_a10",
+        "count": 291,
+        "percentage": 15.68733153638814,
+        "reason": "Change of location"
+    },
+    {
+        "reason_code": "q7_a1",
+        "count": 262,
+        "percentage": 14.12398921832884,
+        "reason": "Financial issues"
+    },
+    {
+        "reason_code": "q7_a5",
+        "count": 184,
+        "percentage": 9.919137466307278,
+        "reason": "Personal reasons"
+    },
+    {
+        "reason_code": "q7_a13",
+        "count": 86,
+        "percentage": 4.636118598382749,
+        "reason": "High rent prices"
+    },
+    {
+        "reason_code": "q7_a3",
+        "count": 77,
+        "percentage": 4.150943396226415,
+        "reason": "Competition"
+    },
+    {
+        "reason_code": "q7_a6",
+        "count": 66,
+        "percentage": 3.557951482479784,
+        "reason": "Economic conditions"
+    },
+    {
+        "reason_code": "q7_a8",
+        "count": 61,
+        "percentage": 3.288409703504043,
+        "reason": "Operational challenges"
+    },
+    {
+        "reason_code": "q7_a11",
+        "count": 49,
+        "percentage": 2.641509433962264,
+        "reason": "End of lease contract"
+    },
+    {
+        "reason_code": "q7_a7",
+        "count": 46,
+        "percentage": 2.47978436657682,
+        "reason": "Changes in business environment"
+    },
+    {
+        "reason_code": "q7_a98",
+        "count": 35,
+        "percentage": 1.886792452830189,
+        "reason": "Other (specify)"
+    },
+    {
+        "reason_code": "q7_a9",
+        "count": 34,
+        "percentage": 1.83288409703504,
+        "reason": "Change in ownership"
+    },
+    {
+        "reason_code": "q7_a14",
+        "count": 15,
+        "percentage": 0.8086253369272237,
+        "reason": "Debt stress"
+    },
+    {
+        "reason_code": "q7_a12",
+        "count": 6,
+        "percentage": 0.3234501347708895,
+        "reason": "Lack of business skills"
+    },
+    {
+        "reason_code": "q7_a4",
+        "count": 2,
+        "percentage": 0.1078167115902965,
+        "reason": "Legal/regulatory issues"
+    }
+],
+
 };
 
 
@@ -5604,7 +5698,59 @@
                     }));
 
                     chartTitle = 'Registration Status by Sangkat';
-                } else {
+                } 
+                else if (selectedDataset === 'compare-dataset7') {
+                    // Handle dataset5 (Open Establishments by Sangkat)
+                    if (!datasets?.dataset7 || !Array.isArray(datasets.dataset7) || datasets.dataset7.length === 0) {
+                        throw new Error('No valid data available for dataset7');
+                    }
+
+                    validData = datasets.dataset7
+                        .filter(item => item.reason && typeof item.percentage === 'number')
+                        .sort((a, b) => b.percentage - a.percentage);
+
+                    sangkats = validData.map(item => item.reason);
+
+
+                    if (validData.length === 0) {
+                        throw new Error('No valid data items after filtering for dataset5');
+                    }
+
+                    series = [{
+                        name: '',
+                        type: 'bar',
+                        data: sangkats.map(sangkat => {
+                            const item = validData.find(d => d.reason === sangkat);
+                            return item ? parseFloat(item.percentage.toFixed(2)) : 0;
+                        }),
+                        itemStyle: {
+                            borderRadius: [0, 4, 4, 0],
+                            borderColor: '#fff',
+                            borderWidth: 1
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.2)'
+                            }
+                        },
+                        label: {
+                            show: true,
+                            position: 'right',
+                            formatter: ({ value }) => (value > 0 ? value : ''),
+                            fontSize: 10
+                        },
+                        animation: true,
+                        animationDuration: 2000, // Increased for slower animation
+                        animationDelay: idx => idx * 100, // Stagger by sangkat
+                        animationDurationUpdate: 1000, // Slower update animation
+                        animationEasing: 'cubicOut' // Smoother easing
+                    }];
+
+                    chartTitle = 'Self-reported Factors Behind Business Closures';
+                }
+                
+                else {
                     throw new Error('Invalid dataset selected');
                 }
 
@@ -5663,9 +5809,25 @@
                         trigger: 'axis',
                         axisPointer: { type: 'shadow' },
                         formatter: params => {
+                            // Special case for dataset7
+                            if (selectedDataset === 'compare-dataset7') {
+                                const reason = sangkats[params[0].dataIndex];
+                                const item = validData.find(d => d.reason === reason);
+                                if (!item) return '';
+                                
+                                return `
+                                    <div class="flex items-center">
+                                        <span class="inline-block w-3 h-3 rounded-full mr-2" style="background:${params[0].color}"></span>
+                                        <span style="font-weight:500">${reason}: ${item.percentage.toFixed(1)}%</span>
+                                    </div>
+                                `;
+                            }
+                            
+                            // Default tooltip for other datasets
                             const sangkat = sangkats[params[0].dataIndex];
                             let content = `<div class="font-medium">${sangkat}</div>`;
                             let total = 0;
+                            
                             params.forEach(param => {
                                 if (param.value > 0) {
                                     let valueDisplay;
@@ -5687,6 +5849,7 @@
                                         </div>`;
                                 }
                             });
+                            
                             if (selectedDataset !== 'compare-dataset5') {
                                 content += `<div class="font-medium mt-1">Total: ${total}${selectedDataset === 'compare-dataset3' ? '%' : ''}</div>`;
                             }
@@ -5695,7 +5858,7 @@
                         backgroundColor: 'rgba(255, 255, 255, 0.96)',
                         borderWidth: 0,
                         extraCssText: 'box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 8px 12px; border-radius: 6px;'
-                    },
+                    },                 
                     legend: {
                         data: series.map(s => s.name),
                         bottom: 0,
@@ -5717,12 +5880,13 @@
                             margin: 8,
                             interval: 0
                         },
-                        axisTick: { alignWithLabel: true }
+                        axisTick: { alignWithLabel: true },
+                        inverse: true
                     },
                     grid: {
-                        left: '5%',
-                        right: '5%',
-                        bottom: gridBottom,
+                        left: selectedDataset === 'compare-dataset7' ? '2%' : '5%',  // Smaller left margin for dataset7
+                        right: selectedDataset === 'compare-dataset7' ? '8%' : '5%',
+                        bottom: selectedDataset === 'compare-dataset7' ? '0%' : gridBottom,
                         top: gridTop,
                         containLabel: true
                     },
