@@ -5121,7 +5121,7 @@
             textStyle: { fontSize: isSmallScreen ? 10 : 12 }
           },
           grid: {
-            left: isSmallScreen ? '5%' : '3%',
+            left: isSmallScreen ? '1%' : '1%',
             right: isSmallScreen ? '5%' : '4%',
             bottom: isSmallScreen ? '20%' : '15%',
             top: isSmallScreen ? '5%' : '10%',
@@ -5140,9 +5140,9 @@
             type: 'category',
             data: types,
             axisLabel: {
-              fontSize: isSmallScreen ? 8 : 10,
+              fontSize: isSmallScreen ? 5 : 8,
               rotate: isSmallScreen ? 45 : 0,
-              formatter: value => value.length > 10 ? value.substring(0, 10) + '...' : value
+              formatter: value => value
             }
           },
           series: series
