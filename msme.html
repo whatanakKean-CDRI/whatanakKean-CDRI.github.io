@@ -190,7 +190,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div class="bg-gray-50 p-3 rounded-lg">
                         <div class="text-xs text-gray-500 mb-1">Total Observations</div>
-                        <div class="text-xl font-bold text-gray-800" id="total-establishments">15,962</div>
+                        <div class="text-xl font-bold text-gray-800" id="total-establishments">15,447</div>
                     </div>
                     <div class="bg-gray-50 p-3 rounded-lg">
                         <div class="text-xs text-gray-500 mb-1">Currently Operating Business</div>
@@ -215,6 +215,8 @@
                         <option value="compare-dataset5">Open Establishments by Sangkat</option>
                         <option value="compare-dataset6">Registration Status by Sangkat</option>
                         <option value="compare-dataset7">Self-reported Factors Behind Business Closures</option>
+                        <option value="compare-dataset8">Operating Businesses at Sectoral Level</option>
+                        <option value="compare-dataset9">Closed Businesses at Sectoral Level</option>
                     </select>
                 </div>
                 <div class="p-4 flex-1 relative">
@@ -2770,7 +2772,8 @@
         "label": "1771 (96.7%)"
     }
 ],
-      dataset4: [
+      
+    dataset4: [
     {
         "a3": "Chak Angrae Leu",
         "type": "Accommodation and food services activities",
@@ -4838,6 +4841,50 @@
     //     "reason": "Legal or regulatory issues"
     // }
 ],
+    dataset8: [
+  {
+    "a3": "Wholesale and retail trade",
+    "status": "Operating Establishments",
+    "percentage": 38.42,
+  },
+  {
+    "a3": "Accommodation and food services activities",
+    "status": "Operating Establishments",
+    "percentage": 17.94,
+  },
+  {
+    "a3": "Manufacturing",
+    "status": "Operating Establishments",
+    "percentage": 6.32,
+  },
+  {
+    "a3": "Other",
+    "status": "Operating Establishments",
+    "percentage": 37.31,
+  },
+],
+  dataset9: [
+  {
+    "a3": "Wholesale and retail trade",
+    "status": "Closed Establishments",
+    "percentage": 31.85,
+  },
+  {
+    "a3": "Accommodation and food services activities",
+    "status": "Closed Establishments",
+    "percentage": 28.69,
+  },
+  {
+    "a3": "Manufacturing",
+    "status": "Closed Establishments",
+    "percentage": 4.1,
+  },
+  {
+    "a3": "Other",
+    "status": "Closed Establishments",
+    "percentage": 35.35,
+  },
+],
 };
 
 
@@ -5750,7 +5797,102 @@
 
                     chartTitle = 'Self-reported Factors Behind Business Closures';
                 }
-                
+                else if (selectedDataset === 'compare-dataset8') {
+                    if (!datasets?.dataset8 || !Array.isArray(datasets.dataset8) || datasets.dataset8.length === 0) {
+                        throw new Error('No valid data available for dataset8');
+                    }
+
+                    validData = datasets.dataset8.filter(item => item.a3 && typeof item.percentage === 'number');
+
+                    if (validData.length === 0) {
+                        throw new Error('No valid data items after filtering for dataset8');
+                    }
+
+                    validData.sort((a, b) => b.percentage - a.percentage);
+                    sangkats = validData.map(item => item.a3);
+
+                    series = [{
+                        name: '',
+                        type: 'bar',
+                        data: sangkats.map(sangkat => {
+                            const item = validData.find(d => d.a3 === sangkat);
+                            return item ? parseFloat(item.percentage.toFixed(2)) : 0;
+                        }),
+                        itemStyle: {
+                            borderRadius: [0, 4, 4, 0],
+                            borderColor: '#fff',
+                            borderWidth: 1
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.2)'
+                            }
+                        },
+                        label: {
+                            show: true,
+                            position: 'right',
+                            formatter: ({ value }) => (value > 0 ? value : ''),
+                            fontSize: 10
+                        },
+                        animation: true,
+                        animationDuration: 2000,
+                        animationDelay: idx => idx * 100,
+                        animationDurationUpdate: 1000,
+                        animationEasing: 'cubicOut'
+                    }];
+
+                    chartTitle = 'Operating Businesses at Sectoral Level';
+                }
+
+                else if (selectedDataset === 'compare-dataset9') {
+                    if (!datasets?.dataset9 || !Array.isArray(datasets.dataset9) || datasets.dataset9.length === 0) {
+                        throw new Error('No valid data available for dataset9');
+                    }
+
+                    validData = datasets.dataset9.filter(item => item.a3 && typeof item.percentage === 'number');
+
+                    if (validData.length === 0) {
+                        throw new Error('No valid data items after filtering for dataset9');
+                    }
+
+                    validData.sort((a, b) => b.percentage - a.percentage);
+                    sangkats = validData.map(item => item.a3);
+
+                    series = [{
+                        name: '',
+                        type: 'bar',
+                        data: sangkats.map(sangkat => {
+                            const item = validData.find(d => d.a3 === sangkat);
+                            return item ? parseFloat(item.percentage.toFixed(2)) : 0;
+                        }),
+                        itemStyle: {
+                            borderRadius: [0, 4, 4, 0],
+                            borderColor: '#fff',
+                            borderWidth: 1
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.2)'
+                            }
+                        },
+                        label: {
+                            show: true,
+                            position: 'right',
+                            formatter: ({ value }) => (value > 0 ? value : ''),
+                            fontSize: 10
+                        },
+                        animation: true,
+                        animationDuration: 2000,
+                        animationDelay: idx => idx * 100,
+                        animationDurationUpdate: 1000,
+                        animationEasing: 'cubicOut'
+                    }];
+
+                    chartTitle = 'Closes Businesses at Sectoral Level';
+                }
+
                 else {
                     throw new Error('Invalid dataset selected');
                 }
@@ -5820,6 +5962,18 @@
                                     <div class="flex items-center">
                                         <span class="inline-block w-3 h-3 rounded-full mr-2" style="background:${params[0].color}"></span>
                                         <span style="font-weight:500">${reason}: ${item.percentage.toFixed(1)}%</span>
+                                    </div>
+                                `;
+                            }
+                            else if (selectedDataset === 'compare-dataset8' || selectedDataset === 'compare-dataset9') {
+                                const sector = sangkats[params[0].dataIndex];
+                                const item = validData.find(d => d.a3 === sector);
+                                if (!item) return '';
+                                
+                                return `
+                                    <div class="flex items-center">
+                                        <span class="inline-block w-3 h-3 rounded-full mr-2" style="background:${params[0].color}"></span>
+                                        <span style="font-weight:500">${sector}: ${item.percentage.toFixed(2)}%</span>
                                     </div>
                                 `;
                             }
