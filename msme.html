@@ -5027,7 +5027,8 @@
             value,
             status: `${status} Establishments`
           };
-        } else {
+        } 
+        else {
           const data = datasets.dataset2 || [];
           const year = timeData.dataset2[currentTimeIndex];
           if (!year) {
@@ -5282,67 +5283,84 @@
         lineChartTrends.setOption(option);
       };
 
-      const renderLineChartYears = (districtName) => {
+    const renderLineChartYears = (districtName) => {
         const districtData = (datasets.dataset2 || []).filter(item => item.a3 === districtName);
         const container = document.getElementById('line-chart-years');
         
         if (lineChartYears) {
-          lineChartYears.dispose();
-          lineChartYears = null;
+            lineChartYears.dispose();
+            lineChartYears = null;
         }
         container.innerHTML = '';
         
         if (districtData.length === 0) {
-          container.innerHTML = '<p class="text-gray-500 text-center py-8">No establishment data available</p>';
-          return;
+            container.innerHTML = '<p class="text-gray-500 text-center py-8">No establishment data available</p>';
+            return;
         }
 
-        const allYears = [...new Set(districtData.map(item => item.year))].sort((a, b) => a - b);
+        // Process the data to group years before 1990
+        const processedData = {};
+        districtData.forEach(item => {
+            const year = item.year < 1990 ? 'Before 1990' : item.year.toString();
+            if (!processedData[year]) {
+                processedData[year] = 0;
+            }
+            processedData[year] += item.est_count;
+        });
+
+        // Create sorted years array with "Before 1990" first
+        const allYears = Object.keys(processedData).sort((a, b) => {
+            if (a === 'Before 1990') return -1;
+            if (b === 'Before 1990') return 1;
+            return parseInt(a) - parseInt(b);
+        });
 
         const series = [{
-          name: 'Establishments',
-          type: 'line',
-          data: allYears.map(year => {
-            const item = districtData.find(d => d.year === year);
-            return item ? item.est_count : 0;
-          }),
-          smooth: true,
-          lineStyle: { width: 3, color: '#336666' },
-          itemStyle: { color: '#336666' },
-          symbol: 'circle',
-          symbolSize: 8,
-          emphasis: { focus: 'series' }
+            name: 'Establishments',
+            type: 'line',
+            data: allYears.map(year => processedData[year]),
+            smooth: true,
+            lineStyle: { width: 3, color: '#336666' },
+            itemStyle: { color: '#336666' },
+            symbol: 'circle',
+            symbolSize: 8,
+            emphasis: { focus: 'series' }
         }];
 
         lineChartYears = echarts.init(container, { renderer: 'svg' });
         
         const option = {
-          tooltip: {
-            trigger: 'axis',
-            formatter: params => {
-              const p = params[0];
-              return `
-                <strong>${p.axisValue}</strong><br/>
-                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:5px;"></span>
-                ${p.value.toLocaleString()} Establishments
-              `;
+            tooltip: {
+                trigger: 'axis',
+                formatter: params => {
+                    const p = params[0];
+                    return `
+                        <strong>${p.axisValue}</strong><br/>
+                        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:5px;"></span>
+                        ${p.value.toLocaleString()} Establishments
+                    `;
+                },
+                backgroundColor: '#fff',
+                textStyle: { color: '#333' },
+                extraCssText: 'box-shadow:0 0 10px rgba(0,0,0,0.2);'
             },
-            backgroundColor: '#fff',
-            textStyle: { color: '#333' },
-            extraCssText: 'box-shadow:0 0 10px rgba(0,0,0,0.2);'
-          },
-          legend: { data: ['Establishments'], bottom: 0 },
-          xAxis: { type: 'category', data: allYears, axisLabel: { rotate: 45 }, boundaryGap: false },
-          yAxis: { type: 'value', name: '' },
-          series: series,
-          grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
-          color: ['#336666']
+            legend: { data: ['Establishments'], bottom: 0 },
+            xAxis: { 
+                type: 'category', 
+                data: allYears, 
+                axisLabel: { rotate: 45 }, 
+                boundaryGap: false 
+            },
+            yAxis: { type: 'value', name: '' },
+            series: series,
+            grid: { left: '8%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
+            color: ['#336666']
         };
 
         lineChartYears.setOption(option);
-      };
-
-      const updateMap = () => {
+    };
+        
+    const updateMap = () => {
         if (geoJsonLayer) map.removeLayer(geoJsonLayer);
         labelLayers.forEach(label => map.removeLayer(label));
         labelLayers = [];
