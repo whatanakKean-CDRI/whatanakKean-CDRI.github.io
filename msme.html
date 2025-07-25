@@ -182,7 +182,7 @@
     <div id="main-content">
         <!-- Left Panel -->
         <div id="info-panel" class="p-4 overflow-y-auto flex flex-col gap-4 min-h-0 drawer-panel">
-            <h3 class="text-lg font-bold text-[#336666]">MSME Overview</h3>
+            <h3 class="text-lg font-bold text-[#336666]">MSME Overview in Khan Mean Chey</h3>
             
             <!-- Key Statistics Section -->
             <div class="bg-white rounded-lg shadow-sm p-4">
@@ -5276,7 +5276,7 @@
           },
           yAxis: { type: 'value', name: '' },
           series: series,
-          grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
+          grid: { left: '9%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
           color: ['#336666', '#E31A1C']
         };
 
@@ -5353,7 +5353,7 @@
             },
             yAxis: { type: 'value', name: '' },
             series: series,
-            grid: { left: '8%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
+            grid: { left: '9%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
             color: ['#336666']
         };
 
@@ -6059,9 +6059,9 @@
                         inverse: true
                     },
                     grid: {
-                        left: selectedDataset === 'compare-dataset7' ? '2%' : '5%',  // Smaller left margin for dataset7
-                        right: selectedDataset === 'compare-dataset7' ? '8%' : '5%',
-                        bottom: selectedDataset === 'compare-dataset7' ? '0%' : gridBottom,
+                        left: ['compare-dataset7', 'compare-dataset8', 'compare-dataset9'].includes(selectedDataset) ? '4%' : '5%',
+                        right: ['compare-dataset7', 'compare-dataset8', 'compare-dataset9'].includes(selectedDataset) ? '12%' : '5%',
+                        bottom: ['compare-dataset7', 'compare-dataset8', 'compare-dataset9'].includes(selectedDataset) ? '0%' : gridBottom,
                         top: gridTop,
                         containLabel: true
                     },
